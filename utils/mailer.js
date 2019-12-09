@@ -16,14 +16,14 @@ secure:false,
       rejectUnauthorized:false
   }
 });
-
+const message1=`You requested for a password reset, kindly use this ${verify} to reset your password`
 
 
 var mailOptions = {
   from: 'milan.srivastava@mail.vinove.com',
   to:email,
   subject: 'Sending Email using Node.js',
-  text:`You requested for a password reset, kindly use this ${verify} to reset your password`
+  text:`Please click this link ${verify} to approve your login  `
 };
 
 transporter.sendMail(mailOptions, function(error, info){

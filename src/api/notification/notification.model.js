@@ -14,6 +14,10 @@ const notificationSchema=new mongoose.Schema({
     typeId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"notificationType"
+    },
+    date:{
+        type:Date,
+        default:new Date()
     }
 })
 

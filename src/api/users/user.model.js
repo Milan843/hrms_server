@@ -72,6 +72,10 @@ const userSchema = new mongoose.Schema({
         ref:'kraAttributes'
     }
     ],
+    verified:{
+        type:Boolean,
+        default:false
+    },
     token: {
         type: String
     }
