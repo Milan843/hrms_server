@@ -8,6 +8,9 @@ const kraAttributesSeeder = require('./src/config/seed/kra_attributesSeeder')
 const adminSeeder= require('./src/config/seed/adminseeder')
 const kraRouter= require('./src/api/kraSheets/krasheetRouters')
 const showemploye=require('./src/api/admin/admin_routers/admin_router')
+const notificationRouter=require('./src/api/notification/notifictaion.router')
+const addEmployConfirm=require('./src/api/admin/usercofirm/usercofirmRouter')
+const notificationSeeder = require("./src/config/seed/notificationseeder");
 const app = express()
 const port = process.env.PORT || 5050
 const cors = require('cors')
@@ -21,10 +24,13 @@ app.use(userRouters)
 app.use(departmentRouter)
 app.use(kraRouter)
 app.use(showemploye)
+app.use(addEmployConfirm)
+app.use(notificationRouter)
 app.use(departmentSeed)
 app.use(designationSeeder)
 app.use(kraAttributesSeeder)
 app.use(adminSeeder)
+app.use(notificationSeeder)
 
 
 app.listen(port, () => {

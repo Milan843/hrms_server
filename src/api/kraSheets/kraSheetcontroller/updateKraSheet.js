@@ -1,4 +1,6 @@
 const KraSheetModel = require("../krasheetmodel");
+const NotificationModel=require("../../notification/notification.model")
+const NotificationType=require("../../notification/notificationType.model")
 const updatekramanager = async (req, res) => {
   console.log("in viewkramanager");
   try {
@@ -17,6 +19,15 @@ const updatekramanager = async (req, res) => {
       { $set: { "kraSheet.$.Status": "Approved" ,"kraSheet.$.kraAttributes":kraAttributes} },{
           new:true
       })
+      const notificationtype=await NotificationType.findOne({type:"KRA Approved"})
+      console.log("notificat",notificationtype);
+      
+        const notification=new NotificationModel({
+            to:userId,
+            from:req.user._id,
+            typeId:notificationtype._id
+        })
+        await notification.save()
     
      res.json(kra)
      

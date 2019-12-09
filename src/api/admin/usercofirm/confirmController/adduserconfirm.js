@@ -1,7 +1,6 @@
-const User = require('../../users/user.model')
+const Userconfirm = require('../userConfirmModel')
 const {check,validationResult}=require("express-validator")
-const NotificationModel=require("../../notification/notification.model")
-const NotificationType=require("../../notification/notificationType.model")
+
 
 const addUser = async (req, res, next) => {
     const errors=validationResult(req)
@@ -9,21 +8,15 @@ const addUser = async (req, res, next) => {
         return res.status(400).json(errors.array())
     }
     try {
-        console.log("contr",req.body);
+        console.log("usernot confirm add user",req.body);
         const newUser={...req.body}
         newUser.reportingManager=Number(newUser.reportingManager)
+        // newUser._id=Number(newUser._id)
         console.log(typeof( newUser.reportingManager));
         
 
-        const user = new User(newUser)
+        const user = new Userconfirm(newUser)
         await user.save()
-        const notificationtype=await NotificationType.findOne({type:"User Verified"})
-        const notification=new NotificationModel({
-            to:user._id,
-            from:req.user._id,
-            typeId:notificationtype._id
-        })
-        await notification.save()
        res.send({user})
     } catch (e) {
         console.log(e.message);

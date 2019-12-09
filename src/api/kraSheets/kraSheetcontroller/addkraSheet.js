@@ -1,5 +1,7 @@
 const User=require("../../users/user.model")
 const KraSheetModel=require("../krasheetmodel")
+const NotificationModel=require("../../notification/notification.model")
+const NotificationType=require("../../notification/notificationType.model")
 const Addkra=async(req,res)=>{
     console.log("addkra");
     
@@ -14,6 +16,14 @@ const Addkra=async(req,res)=>{
         })
         kra.kraSheet.unshift({kraAttributes:req.body.kraAttributes})
         await kra.save()
+        const notificationtype=await NotificationType.findOne({type:"KRA filled"})
+        console.log("notificat",notificationtype._id)
+        const notification=new NotificationModel({
+            to:req.user.reportingManager,
+            from:req.user._id,
+            typeId:notificationtype._id
+        })
+        await notification.save()
         // kra=await kra.populate("kraSheet.kraAttributes[0].Attributesid",["name"])
        return res.send(kra)
 
@@ -29,6 +39,13 @@ const Addkra=async(req,res)=>{
 
     kra.kraSheet.unshift({kraAttributes:req.body.kraAttributes})
     await kra.save()
+    const notificationtype=await NotificationType.findOne({type:"KRA filled"})
+        const notification=new NotificationModel({
+            to:req.user._id,
+            from:req.user.reportingManager,
+            typeId:notificationtype._id
+        })
+        await notification.save()
     res.json(kra)
     
 }catch(err){
